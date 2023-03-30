@@ -37,11 +37,13 @@ export default async function useEtherTxData(
     );
     // &start=${startTimestamp}&end=${endTimestamp}
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
 
     // now we have to create a map
     const txByDate = groupping(json, walletAddress);
-    const arObj = Array.from(txByDate, ([date, txs]) => ({ date, txs }));
+    // const arObj = Array.from(txByDate, ([date, txs]) => ({ date, txs }));
+    const arObj = Array.from(txByDate, ([date, val]) => ({ date, val}));
+    // console.log(txByDate);
     // console.log(arObj);
     return arObj;
     //!........................................................
@@ -68,6 +70,9 @@ function groupping(json: any, walletAddress: string) {
     "Dec",
   ];
 
+  let gasArr: number[] = [];
+
+
   json.result.forEach((val: any) => {
     // return const utcDate = new Date(val.timeStamp * 1000).toUTCString();
     // console.log(val);
@@ -75,17 +80,25 @@ function groupping(json: any, walletAddress: string) {
     const parsedDate = new Date(Date.parse(utcDate)).getDate();
     const parsedMonth = new Date(Date.parse(utcDate)).getMonth();
     const actualDate = months[parsedMonth] + " " + parsedDate;
+
     const txValue =
       val.from.toLowerCase() === walletAddress.toLowerCase()
         ? +ethers.formatEther(val.value) * -1
         : +ethers.formatEther(val.value);
 
+      // gasArr.push(+val.gasUsed);
+    const gasValue = +ethers.formatEther((val.gasUsed * val.gasPrice)+"")
+
     if (mappedData.has(actualDate)) {
-      mappedData.get(actualDate).push(txValue);
+      mappedData.get(actualDate).txs.push(txValue);
+      mappedData.get(actualDate).gasVal.push(gasValue);
     } else {
-      mappedData.set(actualDate, [txValue]);
+      mappedData.set(actualDate, { txs : [txValue] , gasVal : [gasValue]});
+      // mappedData.set(actualDate, [gasValue]);
     }
   });
 
   return mappedData;
 }
+
+
