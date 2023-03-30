@@ -1,4 +1,4 @@
-import useEtherTxData from "./hooks/useEtherTxData";
+import {useEtherTxData} from "./hooks/useEtherTxData";
 import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import Image from "next/image";
 import { EtherscanProvider } from "@ethersproject/providers";
@@ -96,9 +96,9 @@ export default function Home() {
         </p>
       </div>
       <div className="w-full flex flex-col-reverse">
-        {tx?.map((val: any) => {
+        {tx?.map((val: any , idx : number) => {
           return (
-            <div className="w-full flex flex-col">
+            <div key={idx} className="w-full flex flex-col">
               <TxDetails tx={val} />
             </div>
           );

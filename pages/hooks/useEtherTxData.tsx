@@ -1,7 +1,7 @@
 
 import { ethers } from "ethers";
 
-export default async function useEtherTxData(
+export  async function useEtherTxData(
   walletAddress: string,
   numberOfDays: number = 30
 ) {

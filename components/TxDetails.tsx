@@ -21,7 +21,7 @@ export default function TxDetails({tx} : any) {
         { !toggle ? "Show Details" : "Close Details"}
        </p>
     </div>
-    {toggle &&  tx.val.txs.map((val : number , idx : number) => <div className={`  w-full py-1 px-3 mt-1 border ${val > 0 ? "hover:bg-lime-100 " : "hover:bg-rose-100" } rounded-md flex items-center justify-between text-xs transition-all duration-200 ease-linear`}>
+    {toggle &&  tx.val.txs.map((val : number , idx : number) => <div key={idx} className={`  w-full py-1 px-3 mt-1 border ${val > 0 ? "hover:bg-lime-100 " : "hover:bg-rose-100" } rounded-md flex items-center justify-between text-xs transition-all duration-200 ease-linear`}>
      <p >{val > 0 ? "Recieved  ✅ " : "Sent  💢"}</p>
      <p>{tx.val.gasVal[idx].toFixed(8)}</p>
      <p>{val.toFixed(6)}</p>
