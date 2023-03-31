@@ -1,7 +1,7 @@
 
 import { ethers } from "ethers";
 
-export  async function useEtherTxData(
+export default async function useEtherTxData(
   walletAddress: string,
   numberOfDays: number = 30
 ) {
@@ -56,7 +56,7 @@ function groupping(json: any, walletAddress: string) {
     "Dec",
   ];
 
-  let gasArr: number[] = [];
+
 
   json.result.forEach((val: any) => {
     // return const utcDate = new Date(val.timeStamp * 1000).toUTCString();

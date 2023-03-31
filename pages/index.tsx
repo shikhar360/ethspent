@@ -1,4 +1,4 @@
-import {useEtherTxData} from "./hooks/useEtherTxData";
+import useEtherTxData from "../components/hooks/useEtherTxData";
 import { useState, useEffect, useMemo, ChangeEvent } from "react";
 import Image from "next/image";
 import { EtherscanProvider } from "@ethersproject/providers";
@@ -28,20 +28,15 @@ export default function Home() {
     });
   }
 
-  async function sendData({
-    address,
-    days,
-  }: {
-    address: string;
-    days: string;
-  }) {
-    console.log(address, days);
-    const balance = await provider.getBalance(address);
+  async function SendData(inp : any) {
+    console.log(inp);
+    const balance = await provider.getBalance(inp.address);
     const format = ethers.formatEther(balance.toString());
     setBal(+format);
-    const txDatas = await useEtherTxData(address, +days);
+    const txDatas = await useEtherTxData(inp.address, +inp.days);
     setTx(txDatas);
   }
+
   return (
     <div className="w-full min-h-screen flex flex-col items-start justify-start pt-10 px-8 font-mono pb-24 ">
       <p className="text-purple-700 text-mdxl font-semibold   pb-2">
@@ -88,7 +83,7 @@ export default function Home() {
         />
 
         <p
-          onClick={() => sendData(inputs)}
+          onClick={() => SendData(inputs)}
           className="text-xl font-bold tracking-wider border-2 border-dashed py-1 px-2 rounded-md w-52 cursor-pointer hover:shadow-purple-200 hover:shadow-lg"
         >
           {" "}
